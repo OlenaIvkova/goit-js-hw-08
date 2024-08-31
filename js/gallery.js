@@ -66,8 +66,6 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 
-gallery.insertAdjacentHTML(`beforeend`, galleryMarkup);
-
 const galleryMarkup = images.map(({ preview, original, description }) => {
     return `
     <li class="gallery-item">
@@ -82,30 +80,24 @@ const galleryMarkup = images.map(({ preview, original, description }) => {
     </li>`;
 }).join('');
 
+gallery.insertAdjacentHTML(`beforeend`, galleryMarkup);
+
 gallery.addEventListener(`click`, onImageClick);
 
 function onImageClick(event) {
-    if (event.target === event.currentTarget) {
+    event.preventDefault();
+
+    if (event.target.nodeName !== `IMG`) {
         return;
     }
+
+    const largeImage = event.target.dataset.source;
+    // const imageAlt = event.target.alt;
+
+    const instance = basicLightbox.create(`
+      <img src="${largeImage}" width="360" height="200">
+  `);
+
+    instance.show();
+
 }
-
-
-// gallery.innerHTML = galleryMarkup;
-
-// gallery.addEventListener('click', event => {
-//     event.preventDefault();
-
-//     const isGalleryImage = event.target.classList.contains('gallery-image');
-//     if (!isGalleryImage) return;
-
-//     const largeImageURL = event.target.dataset.source;
-
-//     const instance = basicLightbox.create(`
-//       <img src="${event.target.dataset.source}" width="360" height="200"/>
-//       // <img src="${largeImageURL}" width="360" height="200">
-//   `);
-
-//     instance.show();
-// });
-
