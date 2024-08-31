@@ -66,6 +66,8 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 
+gallery.insertAdjacentHTML(`beforeend`, galleryMarkup);
+
 const galleryMarkup = images.map(({ preview, original, description }) => {
     return `
     <li class="gallery-item">
@@ -80,21 +82,30 @@ const galleryMarkup = images.map(({ preview, original, description }) => {
     </li>`;
 }).join('');
 
-gallery.innerHTML = galleryMarkup;
+gallery.addEventListener(`click`, onImageClick);
 
-gallery.addEventListener('click', event => {
-    event.preventDefault();
+function onImageClick(event) {
+    if (event.target === event.currentTarget) {
+        return;
+    }
+}
 
-    const isGalleryImage = event.target.classList.contains('gallery-image');
-    if (!isGalleryImage) return;
 
-    const largeImageURL = event.target.dataset.source;
+// gallery.innerHTML = galleryMarkup;
 
-    const instance = basicLightbox.create(`
-      <img src="${event.target.dataset.source}" width="360" height="200"/>  
-      // <img src="${largeImageURL}" width="360" height="200">
-  `);
+// gallery.addEventListener('click', event => {
+//     event.preventDefault();
 
-    instance.show();
-});
+//     const isGalleryImage = event.target.classList.contains('gallery-image');
+//     if (!isGalleryImage) return;
+
+//     const largeImageURL = event.target.dataset.source;
+
+//     const instance = basicLightbox.create(`
+//       <img src="${event.target.dataset.source}" width="360" height="200"/>
+//       // <img src="${largeImageURL}" width="360" height="200">
+//   `);
+
+//     instance.show();
+// });
 
