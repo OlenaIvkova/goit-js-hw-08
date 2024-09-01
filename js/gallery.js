@@ -99,5 +99,4 @@ function onImageClick(event) {
   `);
 
     instance.show();
-
 }
